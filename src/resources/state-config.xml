@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<state-machine>
+    <state id="start" value="0" class="com.trekiz.admin.modules.cost.state.OperatorStartState" >
+        <next-state event="COMMIT" ref="operatorCommited" />
+        <next-state event="SAVE" ref="operatorSaved" />
+    </state>
+    
+    <state id="operatorCommited" value="1" class="com.trekiz.admin.modules.cost.state.OperatorCommitedState" >
+        <next-state event="COMMIT" ref="financeAccepted" />
+    </state>
+    
+    <state id="operatorSaved" value="2" class="com.trekiz.admin.modules.cost.state.OperatorSavedState">
+        <next-state event="COMMIT" ref="operatorCommited" />
+    </state>
+
+    <state id="financeAccepted" value="3" class="com.trekiz.admin.modules.cost.state.FinanceAcceptedState" >
+        <next-state event="COMMIT" ref="financeCommited" />
+        <next-state event="SAVE" ref="financeSaved" />
+    </state>
+
+    <state id="financeCommited" value="4" class="com.trekiz.admin.modules.cost.state.FinanceCommitedState" >
+        <next-state event="COMMIT" ref="directorAccepted" />
+    </state>
+
+    <state id="financeSaved" value="5" class="com.trekiz.admin.modules.cost.state.FinanceSavedState" >
+        <next-state event="COMMIT" ref="financeCommited" />
+    </state>
+    
+    <state id="directorAccepted" value="6" class="com.trekiz.admin.modules.cost.state.DirectorAcceptedState" >
+        <next-state event="COMMIT" ref="directorCommited" />
+        <next-state event="REFUSE" ref="directorRefused" />
+    </state>
+    
+    <state id="directorCommited" value="7" class="com.trekiz.admin.modules.cost.state.DirectorCommitedState" >
+    </state>
+
+    <state id="directorRefused" value="8" class="com.trekiz.admin.modules.cost.state.DirectorRefusedState" >
+        <next-state event="OPERATORROLLBACK" ref="operatorRollbackState" />
+        <next-state event="FINANCEROLLBACK" ref="financeRollbackState" />
+    </state>
+
+    <state id="operatorRollback" value="9" class="com.trekiz.admin.modules.cost.state.OperatorRollbackState" >
+        <next-state event="COMMIT" ref="operatorCommited" />
+        <next-state event="SAVE" ref="operatorSaved" />
+    </state>
+
+    <state id="financeRollback" value="10" class="com.trekiz.admin.modules.cost.state.FinanceRollbackState" >
+        <next-state event="COMMIT" ref="financeCommited" />
+        <next-state event="SAVE" ref="financeSaved" />
+    </state>
+    
+    <bean name="operator" class="com.trekiz.admin.modules.cost.entity.OperatorSpecificCost" start="start" />
+    <bean name="operatorBudget" class="com.trekiz.admin.modules.cost.entity.OperatorBudgetCost" start="start" />
+    <bean name="finance" class="com.trekiz.admin.modules.cost.entity.FinanceSpecificCost" start="financeAccepted" />
+    
+</state-machine>
