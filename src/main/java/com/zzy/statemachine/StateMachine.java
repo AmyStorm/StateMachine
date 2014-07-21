@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-
 import com.zzy.statemachine.context.StateMachineContext;
 import com.zzy.statemachine.event.FlowEvent;
 import com.zzy.statemachine.persist.StatePersist;
@@ -37,7 +35,6 @@ public class StateMachine {
         this.statePersist = statePersist;
     }
 
-	@PostConstruct
 	public void init(){
 		SAXReader saxReader = new SAXReader();
 		InputStream is = null;
