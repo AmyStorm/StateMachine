@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<state-machine>
+<state-machine start="start">
     <state id="start" value="0" class="com.trekiz.admin.modules.cost.state.OperatorStartState" >
         <next-state event="COMMIT" ref="operatorCommited" />
         <next-state event="SAVE" ref="operatorSaved" />
@@ -48,9 +48,6 @@
         <next-state event="COMMIT" ref="financeCommited" />
         <next-state event="SAVE" ref="financeSaved" />
     </state>
-    
-    <bean name="operator" class="com.trekiz.admin.modules.cost.entity.OperatorSpecificCost" start="start" />
-    <bean name="operatorBudget" class="com.trekiz.admin.modules.cost.entity.OperatorBudgetCost" start="start" />
-    <bean name="finance" class="com.trekiz.admin.modules.cost.entity.FinanceSpecificCost" start="financeAccepted" />
+
     
 </state-machine>

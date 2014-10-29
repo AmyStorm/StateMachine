@@ -28,21 +28,27 @@ public class StateMachine {
 
     private StatePersist statePersist;
 
-    private String xmlPath;
+    private SpecificState start;
 
-    public StateMachine(String xmlPath, StatePersist statePersist){
-        this.xmlPath = xmlPath;
+    private MutableStateBean mutableStateBean;
+
+    private Map<String, SpecificState> stateMap = new HashMap<>();
+
+    protected StateMachine(SpecificState start, MutableStateBean mutableStateBean, Map<String, SpecificState> stateMap, StatePersist statePersist){
         this.statePersist = statePersist;
+        this.start = start;
+        this.mutableStateBean = mutableStateBean;
+        this.stateMap = stateMap;
     }
 
-	public void init(){
+	public void init(String xmlPath){
 		SAXReader saxReader = new SAXReader();
-		InputStream is = null;
+		InputStream is;
 		Document document = null;
 		try {
 	        is = new FileInputStream(xmlPath);
         } catch (Exception e) {
-        	LOG.error("error to open state-config.xml file.", e);
+        	LOG.error("error to open " + xmlPath + " file.", e);
         	return;
         }
 		try {
@@ -55,33 +61,33 @@ public class StateMachine {
         		try {
 	                is.close();
                 } catch (IOException e) {
-                	LOG.error("cannot close iostream.", e);
+                	LOG.error("cannot close io-stream.", e);
                 	return;
                 }
         	}
         }
-		Map<String, SpecificState> stateMap = new HashMap<String, SpecificState>();
-		Map<String, Integer> stateValueMap = new HashMap<String, Integer>();
+		Map<String, SpecificState> stateMap = new HashMap<>();
+		Map<String, Integer> stateValueMap = new HashMap<>();
 		Element root = document.getRootElement();
 		List<Element> states = root.selectNodes("/state-machine/state");
 		for(Element state : states){
 			String className = state.attributeValue("class");
 			String id = state.attributeValue("id");
 			String statusValue = state.attributeValue("value");
-			Integer stateValueInt = null;
+			Integer stateValueInt;
 			if(StringUtils.isNotBlank(statusValue)){
 				stateValueInt = Integer.valueOf(statusValue);
 			}else{
-            	LOG.error("value in state-config.xml file must be not blank.");
+            	LOG.error("value in " + xmlPath + " file must be not blank.");
             	return;
 			}
-			Class<?> stateClass = null;
-			Constructor<?> constructor = null;
-			Object instance = null;
+			Class<?> stateClass;
+			Constructor<?> constructor;
+			Object instance;
 			try {
 	            stateClass = Class.forName(className);
             } catch (ClassNotFoundException e) {
-            	LOG.error("class not found in state-config.xml file.", e);
+            	LOG.error("class not found in " + xmlPath + " file.", e);
             	return;
             }
 			
@@ -94,7 +100,7 @@ public class StateMachine {
 			try {
 	            instance = constructor.newInstance(Integer.valueOf(statusValue));
             } catch (Exception e) {
-            	LOG.error("cannot instinate the class.", e);
+            	LOG.error("cannot instantiate the class.", e);
             	return;
             }
 
@@ -116,21 +122,12 @@ public class StateMachine {
 			StateMachineContext.addState(stateId, stateMap.get(stateId), stateValueMap.get(stateId));
 		}
 		List<Element> beans = root.selectNodes("/state-machine/bean");
-//		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		for(Element bean : beans){
-//			String path = pack.attributeValue("package").replace('.', '/');  
-//			Enumeration<URL> resources = null;
-//	        try {
-//	            resources = classLoader.getResources(path);
-//            } catch (IOException e) {
-//            	LOG.error("annotation scan occured error.", e);
-//            	return;
-//            }
 			String beanRef = bean.attributeValue("name");
 			String beanClass = bean.attributeValue("class");
 			String start = bean.attributeValue("start");
 			
-			Class<?> classType = null;
+			Class<?> classType;
 			try {
 	           classType = Class.forName(beanClass);
             } catch (ClassNotFoundException e) {
@@ -160,19 +157,24 @@ public class StateMachine {
 	}
 	
 	public final void prepareStart(StateOwner stateOwner) {
-		SpecificState currentState = stateOwner.getSpecificState();
-		if (currentState != null) {
-			currentState.run(stateOwner);
-			if(stateOwner != null && stateOwner.getMutableStateBeans() != null){
-				List<MutableStateBean> beans = stateOwner.getMutableStateBeans();
-				for(MutableStateBean bean : beans){
-                    statePersist.persistState(bean);
-				}
-				
-			}else{
-				throw new RuntimeException("stateOwner or mutableStateBean is null, cannot persist.");
-			}
-		}
+        if(stateOwner != null){
+            SpecificState currentState = stateOwner.getSpecificState();
+            if (currentState != null) {
+                currentState.run(stateOwner);
+                if(stateOwner.getMutableStateBeans() != null){
+                    List<MutableStateBean> beans = stateOwner.getMutableStateBeans();
+                    for(MutableStateBean bean : beans){
+                        statePersist.persistState(bean);
+                    }
+
+                }else{
+                    throw new RuntimeException("mutableStateBean is null, cannot persist.");
+                }
+            }
+        }else{
+            throw new RuntimeException("stateOwner is null, cannot persist.");
+        }
+
 //		SpecificStatus currentState = readCurrentState(taskid); // 从数据库获得当前状态
 //		StateOwner stateOwner = new StateOwner(taskid, currentState);
 //		// 转换状态
