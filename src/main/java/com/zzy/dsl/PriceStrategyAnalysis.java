@@ -1,13 +1,13 @@
 package com.zzy.dsl;
 
-import com.litb.v3.center.service.impl.procurement.dsl.formula.Formula;
-import com.litb.v3.center.service.impl.procurement.dsl.formula.FormulaCompiler;
-import com.litb.v3.center.service.impl.procurement.dsl.grammar.Grammar;
-import com.litb.v3.center.service.impl.procurement.dsl.grammar.Token;
-import com.litb.v3.center.service.impl.procurement.dsl.grammar.TokenContainer;
-import com.litb.v3.center.service.impl.procurement.dsl.tree.BinaryTreeNode;
-import com.litb.v3.center.service.impl.procurement.dsl.tree.TreeNode;
-import com.litb.v3.center.service.impl.procurement.dsl.tree.TreeNodeUtil;
+import com.zzy.dsl.formula.Formula;
+import com.zzy.dsl.formula.FormulaCompiler;
+import com.zzy.dsl.grammar.Grammar;
+import com.zzy.dsl.grammar.Token;
+import com.zzy.dsl.grammar.TokenContainer;
+import com.zzy.dsl.tree.BinaryTreeNode;
+import com.zzy.dsl.tree.TreeNode;
+import com.zzy.dsl.tree.TreeNodeUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.BufferedReader;

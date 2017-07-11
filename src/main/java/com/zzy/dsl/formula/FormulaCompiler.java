@@ -1,7 +1,7 @@
 package com.zzy.dsl.formula;
 
-import com.litb.v3.center.service.impl.procurement.dsl.grammar.Token;
-import com.litb.v3.center.service.impl.procurement.dsl.tree.BinaryTreeNode;
+import com.zzy.dsl.grammar.Token;
+import com.zzy.dsl.tree.BinaryTreeNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

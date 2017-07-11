@@ -1,8 +1,8 @@
 package com.zzy.dsl.grammar;
 
-import com.litb.v3.center.service.impl.procurement.dsl.formula.FormulaCaseRelationEnum;
-import com.litb.v3.center.service.impl.procurement.dsl.formula.FormulaRelationEnum;
-import com.litb.v3.center.service.impl.procurement.dsl.tree.TreeNode;
+import com.zzy.dsl.formula.FormulaCaseRelationEnum;
+import com.zzy.dsl.formula.FormulaRelationEnum;
+import com.zzy.dsl.tree.TreeNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,6 +1,6 @@
 package com.zzy.dsl.tree;
 
-import com.litb.v3.center.service.impl.procurement.dsl.grammar.Grammar;
+import com.zzy.dsl.grammar.Grammar;
 
 import java.util.ArrayList;
 import java.util.Iterator;
