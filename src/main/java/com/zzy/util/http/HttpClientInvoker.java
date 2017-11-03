@@ -64,8 +64,8 @@ public class HttpClientInvoker {
             }
         }
 
-    @Override
-    public Map<String, TreeSet<HttpSendingObj>> beforeReconnectCalling(List<HttpSendingObj> objList) {
+        @Override
+        public Map<String, TreeSet<HttpSendingObj>> beforeReconnectCalling(List<HttpSendingObj> objList) {
         final List<String> reqDetailIds = new ArrayList<String>();
         Map<String, TreeSet<HttpSendingObj>> map = new HashMap<String, TreeSet<HttpSendingObj>>();
         for (HttpSendingObj obj : objList) {
