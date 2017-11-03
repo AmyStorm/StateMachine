@@ -57,7 +57,7 @@ public class PriceStrategyAnalysis {
         StringBuilder builder = new StringBuilder();
         LinkedList<Token> linkedList = new LinkedList<Token>();
         try {
-            while((value =  reader.read()) != -1){
+            while((value = reader.read()) != -1){
                 char c = (char) value;
                 if(Character.isWhitespace(c) || value == 13 || value == 10){
                     String identifier = builder.toString();

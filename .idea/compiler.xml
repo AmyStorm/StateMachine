@@ -20,7 +20,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.7">
-      <module name="statemachine" target="1.5" />
+      <module name="statemachine" target="1.6" />
     </bytecodeTargetLevel>
   </component>
 </project>
