@@ -39,10 +39,13 @@ public class StateMachineFactory {
         }else{
             throw new RuntimeException("xml path is null");
         }
+        return null;
     }
 
     private static StateMachine init(String xmlPath, StatePersist statePersist){
-        StateMachine StateMachine = new StateMachine(xmlPath, statePersist);
+
+        StateMachine StateMachine = new StateMachine(null, null, null, statePersist);
+//        StateMachine StateMachine = new StateMachine(xmlPath, statePersist);
         SAXReader saxReader = new SAXReader();
         InputStream is;
         Document document = null;
@@ -128,5 +131,6 @@ public class StateMachineFactory {
             }
             StateMachineContext.addMutableBeanType(beanRef, classType, start);
         }
+        return StateMachine;
     }
 }

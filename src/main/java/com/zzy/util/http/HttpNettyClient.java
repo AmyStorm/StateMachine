@@ -73,9 +73,9 @@ public class HttpNettyClient{
             if(callingObjMap.size() > 0){
                 EventLoopGroup workerGroup = new NioEventLoopGroup();
                 try {
-                    for (String sendingObjKey : callingObjMap.keySet()) {
+                    for (Map.Entry<String, TreeSet<HttpSendingObj>> sendingObjEntry : callingObjMap.entrySet()) {
                         HttpSendingObj lastReq = null;
-                        for(HttpSendingObj ele : callingObjMap.get(sendingObjKey)){
+                        for(HttpSendingObj ele : sendingObjEntry.getValue()){
                             Bootstrap bootstrap = new Bootstrap();
                             URI uri = ele.getExecutingUri();
                             bootstrap.remoteAddress(uri.getHost(), uri.getPort());

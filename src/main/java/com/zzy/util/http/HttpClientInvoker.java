@@ -23,10 +23,10 @@ public class HttpClientInvoker {
         private Map<String, HttpSendingObj> objReverseMapping = new HashMap<String, HttpSendingObj>();
         @Override
         public void beforeCalling(Map<String, TreeSet<HttpSendingObj>> objMap) {
-            for(String sendingObjKey : objMap.keySet()){
-                ReqBatch reqBatch = httpReqService.saveReqBatch(sendingObjKey);
+            for(Map.Entry<String, TreeSet<HttpSendingObj>> sendingObjKey : objMap.entrySet()){
+                ReqBatch reqBatch = httpReqService.saveReqBatch(sendingObjKey.getKey());
                 int seq = 1;
-                for(HttpSendingObj ele : objMap.get(sendingObjKey)){
+                for(HttpSendingObj ele : sendingObjKey.getValue()){
                     URI uri = ele.getExecutingUri();
                     ReqDetail reqDetail = httpReqService.saveReqDetail(reqBatch.getReqBatchId(), uri.toString(), ele.httpBody(), ele.method().name(), String.valueOf(seq));
                     seq++;
